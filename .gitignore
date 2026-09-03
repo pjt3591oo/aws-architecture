@@ -7,3 +7,7 @@ data/
 queue-attrs*.json
 task-def*.json
 .build_hash
+sqs-policy.json
+trust-policy.json
+ecr create-repository 
+cf-dist.json
