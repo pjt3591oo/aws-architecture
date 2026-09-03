@@ -1,6 +1,7 @@
 node_modules
 
-*.zip
+entry-lambda.zip
+consumer-lambda.zip
 
 aws/
 data/
