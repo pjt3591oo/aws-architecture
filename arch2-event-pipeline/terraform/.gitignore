@@ -8,5 +8,4 @@ crash.log
 
 # 실제 CI/CD가 빌드하는 배포용 zip (placeholder zip인 lambda-src/*.zip과는 다름)
 # CI/CD 파이프라인이 로컬에서 빌드할 때 생기는 산출물이라 git에는 필요 없다.
-entry-lambda.zip
-consumer-lambda.zip
+
