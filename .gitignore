@@ -1,0 +1,9 @@
+node_modules
+
+*.zip
+
+aws/
+data/
+queue-attrs*.json
+task-def*.json
+.build_hash

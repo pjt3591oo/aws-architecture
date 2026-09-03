@@ -1,0 +1,54 @@
+services:
+  floci:
+    image: floci/floci:latest
+    container_name: floci
+    ports:
+      - "4566:4566"          # 메인 API 엔드포인트
+      - "7001-7099:7001-7099" # RDS 인증 프록시 포트 범위 (공식 문서: RDS Docker Compose 섹션)
+      - "80:80"               # ALB 리스너 소켓 - "Listener sockets bind on the Floci host"
+    environment:
+      - FLOCI_DEFAULT_REGION=ap-northeast-2
+
+      # --- 컨테이너 기반 서비스(RDS/ECS 등) 공용 Docker 네트워크 ---
+      # 잘못된 변수명이었던 FLOCI_DOCKER_NETWORK -> 공식 변수명으로 수정.
+      # 서비스별로 개별 지정하고 싶으면 FLOCI_SERVICES_ECS_DOCKER_NETWORK /
+      # FLOCI_SERVICES_RDS_DOCKER_NETWORK 로 override 가능 (미지정 시 이 값 상속)
+      - FLOCI_SERVICES_DOCKER_NETWORK=arch1-basicserverclientmodel_floci-net 
+
+      # --- ECS ---
+      - FLOCI_SERVICES_ECS_ENABLED=true
+      - FLOCI_SERVICES_ECS_MOCK=false          # false = 실제 Docker 컨테이너로 태스크 기동
+
+      # --- RDS ---
+      - FLOCI_SERVICES_RDS_ENABLED=true
+      - FLOCI_SERVICES_RDS_MOCK=false          # false = 실제 Postgres/MySQL 컨테이너
+      - FLOCI_SERVICES_RDS_PROXY_BASE_PORT=7001
+      - FLOCI_SERVICES_RDS_PROXY_MAX_PORT=7099
+
+      # --- ELB v2 (ALB) ---
+      - FLOCI_SERVICES_ELBV2_ENABLED=true
+
+      # --- Route53 ---
+      - FLOCI_SERVICES_ROUTE53_ENABLED=true
+      # 주의: 공식 문서 확인 결과 관리 플레인(호스팅존/레코드 CRUD)만 제공하며
+      # 실제 DNS resolution은 지원하지 않음 ("Actual DNS resolution is not provided")
+
+      # --- CloudFront ---
+      - FLOCI_SERVICES_CLOUDFRONT_ENABLED=true
+      # 핵심: 커스텀 오리진(ALB)이 사설/루프백 주소로 resolve되면 기본적으로 차단됨.
+      # ALB가 뜬 뒤 실제 ALB DNS 이름을 여기 추가하고 floci 컨테이너를 재시작해야
+      # CloudFront -> ALB 오리진 연결이 열림. (provision.sh 실행 후 안내 문구 참고)
+      - FLOCI_SERVICES_CLOUDFRONT_ALLOWED_PRIVATE_ORIGIN_HOSTS=host.docker.internal,localhost,127.0.0.1,demo-alb-07bb388e407f4a09.elb.localhost.floci.io
+
+      # --- WAF v2 ---
+      # 공식 문서상 별도 Configuration 섹션/전용 ENABLED 변수가 없음.
+      # 관리 API(WebACL/IPSet/RuleGroup CRUD)만 제공하고 실시간 트래픽 필터링은 하지 않음.
+    volumes:
+      - ./data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - floci-net
+
+networks:
+  floci-net:
+    driver: bridge

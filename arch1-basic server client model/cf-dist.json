@@ -1,0 +1,27 @@
+{
+  "CallerReference": "demo-1788230172",
+  "Comment": "demo distribution",
+  "Enabled": true,
+  "WebACLId": "arn:aws:wafv2:us-east-1:000000000000:global/webacl/demo-cf-waf/83a0b588-92dd-4342-ad51-3c067cef848a",
+  "Origins": {
+    "Quantity": 1,
+    "Items": [
+      {
+        "Id": "alb-origin",
+        "DomainName": "demo-alb-07bb388e407f4a09.elb.localhost.floci.io",
+        "CustomOriginConfig": {
+          "HTTPPort": 80,
+          "HTTPSPort": 443,
+          "OriginProtocolPolicy": "http-only"
+        }
+      }
+    ]
+  },
+  "DefaultCacheBehavior": {
+    "TargetOriginId": "alb-origin",
+    "ViewerProtocolPolicy": "allow-all",
+    "ForwardedValues": { "QueryString": true, "Cookies": { "Forward": "all" } },
+    "TrustedSigners": { "Enabled": false, "Quantity": 0 },
+    "MinTTL": 0
+  }
+}

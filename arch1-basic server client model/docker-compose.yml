@@ -1,0 +1,34 @@
+services:
+  floci:
+    image: floci/floci:latest
+    container_name: floci
+    ports:
+      - "4566:4566"          # 메인 API 엔드포인트
+      - "7001-7099:7001-7099" # RDS 인증 프록시 포트 범위 (공식 문서: RDS Docker Compose 섹션)
+      - "80:80"               # ALB 리스너 소켓 - "Listener sockets bind on the Floci host"
+    environment:
+      - FLOCI_DEFAULT_REGION=ap-northeast-2
+
+      - FLOCI_SERVICES_DOCKER_NETWORK=arch1-basicserverclientmodel_floci-net 
+
+      # --- ECS ---
+      - FLOCI_SERVICES_ECS_ENABLED=true
+      - FLOCI_SERVICES_ECS_MOCK=false          # false = 실제 Docker 컨테이너로 태스크 기동
+
+      # --- RDS ---
+      - FLOCI_SERVICES_RDS_ENABLED=true
+      - FLOCI_SERVICES_RDS_MOCK=false          # false = 실제 Postgres/MySQL 컨테이너
+      - FLOCI_SERVICES_RDS_PROXY_BASE_PORT=7001
+      - FLOCI_SERVICES_RDS_PROXY_MAX_PORT=7099
+
+      # --- ELB v2 (ALB) ---
+      - FLOCI_SERVICES_ELBV2_ENABLED=true
+    volumes:
+      - ./data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - floci-net
+
+networks:
+  floci-net:
+    driver: bridge

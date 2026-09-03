@@ -1,0 +1,11 @@
+{
+  "Changes": [{
+    "Action": "CREATE",
+    "ResourceRecordSet": {
+      "Name": "app.demo.local",
+      "Type": "CNAME",
+      "TTL": 300,
+      "ResourceRecords": [{ "Value": "E4LDXEMQK6KWGU.cloudfront.net" }]
+    }
+  }]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "arch1-basic-server-client-model",
+  "version": "1.0.0",
+  "description": "```bash docker-compose up -d          # Floci 기동 (docker.sock 마운트 필수 - RDS/ECS가 실컨테이너로 뜸) chmod +x provision.sh ./provision.sh ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "pg": "^8.23.0"
+  }
+}
