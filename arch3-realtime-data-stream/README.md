@@ -1,3 +1,26 @@
+# data pipeline
+
+```
+                         ┌── Firehose ──────> S3
+                         │
+Kinesis Data Stream ─────┤
+                         │
+                         └── Firehose ──────> OpenSearch
+                                                  │
+                                                  └── events
+
+S3
+ │
+ ▼
+Glue Database
+ │
+ ▼
+Glue Table
+ │
+ ▼
+Athena
+```
+
 ```sh
 aws s3api list-objects-v2 \
   --bucket "$BUCKET" \
@@ -146,11 +169,6 @@ curl -s \
     }
   },
   "sort": [
-    {
-      "timestamp": {
-        "order": "desc"
-      }
-    }
   ]
 }
 '
