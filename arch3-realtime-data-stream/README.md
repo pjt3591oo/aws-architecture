@@ -117,6 +117,18 @@ ORDER BY total_amount DESC"
 
 ### opensearch
 
+```sh
+$ curl -s "http://localhost:9400/_cluster/health"
+```
+
+```sh
+$ curl -s "http://localhost:9400/_cat/indices?v"
+health status index                        uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+green  open   .opensearch-observability    OaDlfrcbSVeUGC10tvyP-w   1   0          0            0       208b           208b
+green  open   .plugins-ml-config           ueByf2FVT06LwdxLB-mRbg   1   0          1            0        4kb            4kb
+green  open   top_queries-2026.09.04-04061 cl9aFaeQTNKKC7qAwYro8A   1   0          6            0     67.7kb         67.7kb
+```
+
 * 특정 이벤트 검색
 
 ```sh

@@ -12,36 +12,10 @@ export AWS_DEFAULT_REGION=ap-northeast-2
 AWS_REGION=$AWS_DEFAULT_REGION
 ACCOUNT_ID=000000000000
 
-if [ -z "${GLUE_DATABASE:-}" ]; then
-    echo "ERROR: GLUE_DATABASE is not set"
-    exit 1
-fi
-
-if [ -z "${GLUE_TABLE:-}" ]; then
-    echo "ERROR: GLUE_TABLE is not set"
-    exit 1
-fi
-
-if [ -z "${ATHENA_WORKGROUP:-}" ]; then
-    echo "ERROR: ATHENA_WORKGROUP is not set"
-    exit 1
-fi
-
 # 기본 쿼리:
 # 테이블 이름에 '-'가 포함되어 있으므로 double quote 처리
 QUERY="${1:-SELECT * FROM \"${GLUE_TABLE}\" LIMIT 10}"
 
-echo
-echo "============================================================"
-echo "Athena Query"
-echo "============================================================"
-
-echo "$QUERY"
-
-echo
-echo "Database : $GLUE_DATABASE"
-echo "Table    : $GLUE_TABLE"
-echo "Workgroup: $ATHENA_WORKGROUP"
 
 QUERY_ID=$(aws athena start-query-execution \
     --query-string "$QUERY" \
