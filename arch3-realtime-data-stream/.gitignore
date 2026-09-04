@@ -1,0 +1,5 @@
+*.json
+firehose describe-delivery-stream 
+kinesis describe-stream-summary 
+configure get region
+s3api list-objects-v2 

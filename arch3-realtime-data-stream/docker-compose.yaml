@@ -1,0 +1,19 @@
+services:
+  floci:
+    image: floci/floci:latest
+    container_name: floci
+    ports:
+      - "4566:4566"
+    environment:
+      - FLOCI_DEFAULT_REGION=ap-northeast-2
+      # 로그 레벨 (TRACE/DEBUG/INFO/WARN/ERROR)
+      - FLOCI_LOG_LEVEL=INFO
+      # Athena -> floci-duck 사이드카가 쓸 이미지 (기본값, 명시적으로 고정)
+      - FLOCI_SERVICES_ATHENA_DEFAULT_IMAGE=floci/floci-duck:latest
+    volumes:
+      # 데이터 영속화 (S3/DynamoDB 등 상태 유지). 필요 없으면 이 라인 지우면 매번 초기화됨.
+      - ./data:/app/data
+      # OpenSearch, Athena(floci-duck), 향후 Lambda/RDS/ElastiCache/ECS/EKS 등
+      # 컨테이너 기반 서비스를 실제 Docker로 띄우기 위해 도커 소켓 마운트 필요.
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
