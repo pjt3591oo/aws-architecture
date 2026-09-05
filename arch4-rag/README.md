@@ -88,7 +88,7 @@ $ aws s3vectors list-vectors \
 ```
 
 ```bash
-aws s3vectors list-vectors \
+$ aws s3vectors list-vectors \
   --vector-bucket-name rag-vectors \
   --index-name docs-index \
   --return-metadata \
@@ -111,14 +111,14 @@ $ terraform apply
 ```bash
 $ cd lambda/ingest
 
-$ deploy.sh
+$ ./deploy.sh
 ```
 
 
 ```bash
 $ cd lambda/ingest
 
-$ query.sh
+$ ./deploy.sh
 ```
 
 ## 사용
@@ -126,7 +126,7 @@ $ query.sh
 ```bash
 # 1) 문서 업로드 (자동으로 임베딩되어 S3 Vectors에 저장됨)
 export AWS_ENDPOINT_URL=http://localhost:4566
-export AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test AWS_DEFAULT_REGION=us-east-1
+export AWS_ACCESS_KEY_ID=test AWS_SECRET_ACCESS_KEY=test AWS_DEFAULT_REGION=ap-northeast-2
 
 aws s3 cp ./test_docs/01_architecture_overview.md s3://rag-documents/architecture_overview.md
 aws s3 cp ./test_docs/02_kinesis.md s3://rag-documents/kinesis.md
@@ -136,7 +136,7 @@ aws s3 cp ./test_docs/05_scenarios.md s3://rag-documents/scenarios.md
 aws s3 cp ./test_docs/06_design_decisions.md s3://rag-documents/design_decisions.md
 
 # 2) 질의
-export INVOKE_URL="http://localhost:4566/restapis/e035729e1f/dev/_user_request_/query"
+export INVOKE_URL="http://localhost:4566/restapis/5a6321dabe/dev/_user_request_/query"
 curl -X POST $INVOKE_URL \
   -H 'Content-Type: application/json' \
   -d '{"question": "Kinesis Data Streams의 역할은 무엇인가?"}'

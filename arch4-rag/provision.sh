@@ -238,7 +238,7 @@ EOF
       --timeout 60 \
       --memory-size 512 \
       --environment "$QUERY_ENV_JSON" >/dev/null
-  fi
+fi
 
   # ---------------------------------------------------------------------
   # 8. S3 -> ingest Lambda 이벤트 트리거 연결
