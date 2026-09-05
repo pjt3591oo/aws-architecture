@@ -12,3 +12,8 @@ sqs-policy.json
 trust-policy.json
 ecr create-repository 
 cf-dist.json
+
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
+.terraform.lock.hcl
