@@ -1,0 +1,10 @@
+{
+  "name": "query-handler",
+  "version": "1.0.0",
+  "description": "API Gateway -> embed question -> S3 Vectors search -> llama.cpp answer",
+  "main": "index.js",
+  "type": "commonjs",
+  "dependencies": {
+    "@aws-sdk/client-s3vectors": "^3.700.0"
+  }
+}
